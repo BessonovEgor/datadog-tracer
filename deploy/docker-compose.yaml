@@ -1,0 +1,21 @@
+version: "3"
+services:
+  statsd:
+    image: "gcr.io/datadoghq/agent:latest"
+    container_name: "dd-statsd"
+    environment:
+      - DD_API_KEY=<YOUR DATADOG API KEY>
+      - DD_APM_ENABLED=true
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_ENABLE_METADATA_COLLECTION=true
+      - DD_SITE=us5.datadoghq.com
+    ports:
+      - "8125:8125/udp"
+      - "8126:8126/tcp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
